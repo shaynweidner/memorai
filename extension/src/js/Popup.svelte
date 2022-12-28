@@ -81,17 +81,11 @@
 
   async function getQuestions() {
     if (selection) {
-      let response = await post(
-        "https://api.humanloop.com/projects/150/predict", 
-        {n_best: 5, data:[ {text: selection} ]}    
-      );
-      if (response) {
-        console.log({response})
-        cards = response[0].predictions[0].value.map(x => ({ type: "cloze", text: x.label, editing: false }));
-      } else {
-        cards = {};
-      }
-      
+      let response = await post("http://***replace with your URL***/question/?q_type=cloze", { text_data: selection });
+      cards = response.map(x => {
+        return { type: "cloze", text: x, editing: false };
+      });
+
       sentSelection = selection;
       console.log(cards);
       sent = false;
